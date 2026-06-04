@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kumon Brookswood — Parent Booking Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --teal:       #009FE3;
+  --teal-dark:  #0077B6;
+  --teal-light: #E0F4FD;
+  --teal-mid:   #B8E4F9;
+  --ink:        #0D1B2A;
+  --ink2:       #3A4A5C;
+  --ink3:       #7A8C9E;
+  --snow:       #FFFFFF;
+  --fog:        #F5F8FB;
+  --fog2:       #EBF2F8;
+  --border:     rgba(0,159,227,0.15);
+  --border2:    rgba(0,159,227,0.3);
+  --green:      #00B894;
+  --green-bg:   #E0F8F4;
+  --red:        #D63031;
+  --red-bg:     #FDECEA;
+  --amber:      #E17055;
+  --amber-bg:   #FDF0EC;
+  --radius-sm:  6px;
+  --radius:     12px;
+  --radius-lg:  18px;
+  --radius-xl:  24px;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow:     0 4px 16px rgba(0,119,182,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-lg:  0 8px 32px rgba(0,119,182,0.14), 0 2px 8px rgba(0,0,0,0.08);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--fog);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── Page shell ── */
+.page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+}
+
+/* ── Hero header ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-lg);
+}
+.hero-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center 40%;
+  display: block;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,20,40,0.05) 0%,
+    rgba(0,20,40,0.55) 100%
+  );
+}
+.hero-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+.hero-logo {
+  height: 52px;
+  width: auto;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25));
+}
+.hero-text h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: #fff;
+  line-height: 1.2;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.hero-text p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 2px;
+}
+
+/* ── Address bar ── */
+.address-bar {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: var(--snow);
+  border-radius: var(--radius);
+  margin: 0 1rem 1.5rem;
+  padding: 12px 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.address-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--ink2);
+  text-decoration: none;
+}
+.address-item i { color: var(--teal); font-size: 16px; }
+.address-item:hover { color: var(--teal); }
+
+/* ── Cards ── */
+.card {
+  background: var(--snow);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin: 0 1rem 1rem;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.3s ease both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.card-hd {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--fog2);
+}
+.card-hd i { font-size: 19px; color: var(--teal); }
+
+/* ── Section label ── */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin: 0 1rem 0.5rem;
+  padding-left: 4px;
+}
+
+/* ── Forms ── */
+.field { margin-bottom: 1rem; }
+.field:last-of-type { margin-bottom: 0; }
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink2);
+  display: block;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.field input, .field select {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--fog2);
+  border-radius: var(--radius);
+  background: var(--fog);
+  color: var(--ink);
+  transition: all 0.15s;
+  appearance: none;
+}
+.field input:focus, .field select:focus {
+  outline: none;
+  border-color: var(--teal);
+  background: var(--snow);
+  box-shadow: 0 0 0 4px rgba(0,159,227,0.1);
+}
+.field input::placeholder { color: var(--ink3); }
+.field input[readonly] { opacity: 0.55; cursor: default; background: var(--fog2); }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── Buttons ── */
+.btn {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  background: var(--fog);
+  color: var(--ink2);
+  border-color: var(--fog2);
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.btn:hover { background: var(--fog2); border-color: var(--border2); }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(0,159,227,0.35);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #00b3ff 0%, var(--teal) 100%);
+  box-shadow: 0 6px 20px rgba(0,159,227,0.45);
+  border-color: transparent;
+}
+.btn-danger {
+  background: var(--red-bg);
+  color: var(--red);
+  border-color: rgba(214,48,49,0.2);
+}
+.btn-danger:hover { background: #fbd7d7; }
+.btn-sm { width: auto; padding: 7px 13px; font-size: 12px; border-radius: var(--radius-sm); }
+.btn-ghost { background: transparent; border-color: var(--border2); color: var(--teal); }
+.btn-ghost:hover { background: var(--teal-light); }
+
+/* ── Tabs ── */
+.tab-bar {
+  display: flex;
+  background: var(--snow);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 0 1rem 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.tab {
+  flex: 1;
+  padding: 11px 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--ink3);
+  border-right: 1px solid var(--border);
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.tab:last-child { border-right: none; }
+.tab.active {
+  background: linear-gradient(135deg, var(--teal-light), #d0edf9);
+  color: var(--teal-dark);
+  font-weight: 700;
+}
+.tab i { font-size: 15px; }
+
+/* ── Pills ── */
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.pill-teal  { background: var(--teal-light); color: var(--teal-dark); }
+.pill-green { background: var(--green-bg);   color: #00796B; }
+.pill-red   { background: var(--red-bg);     color: var(--red); }
+.pill-ink { background: var(--amber-bg);   color: var(--amber); }
+.pill-ink   { background: var(--fog2);       color: var(--ink2); }
+
+/* ── Avatar ── */
+.avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-light), var(--teal-mid));
+  color: var(--teal-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,159,227,0.2);
+}
+
+/* ── Rows ── */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--fog2);
+  font-size: 13px;
+  gap: 10px;
+}
+.row:last-child { border-bottom: none; }
+.row-label { color: var(--ink3); flex-shrink: 0; }
+.row-val { font-weight: 600; color: var(--ink); text-align: right; }
+
+/* ── Student rows ── */
+.student-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--fog2);
+}
+.student-row:last-child { border-bottom: none; }
+
+/* ── Chips ── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  padding: 3px 9px;
+  border-radius: 20px;
+  margin: 2px;
+  font-weight: 500;
+}
+
+/* ── Slots ── */
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.slot {
+  border: 1.5px solid var(--fog2);
+  border-radius: var(--radius);
+  padding: 11px 8px;
+  cursor: pointer;
+  text-align: center;
+  background: var(--fog);
+  transition: all .15s;
+}
+.slot:hover:not(.full) {
+  border-color: var(--teal);
+  background: var(--teal-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,159,227,0.15);
+}
+.slot.sel {
+  background: linear-gradient(135deg, var(--teal-light), #d0edf9);
+  border: 2px solid var(--teal);
+  box-shadow: 0 4px 12px rgba(0,159,227,0.2);
+}
+.slot.full { opacity: 0.35; cursor: not-allowed; }
+.slot-t { font-size: 13px; font-weight: 700; color: var(--ink); }
+.slot-a { font-size: 11px; color: var(--ink3); margin-top: 3px; }
+.slot.sel .slot-t { color: var(--teal-dark); }
+.slot.sel .slot-a { color: var(--teal); }
+
+/* ── Day buttons ── */
+.day-btn {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid var(--fog2);
+  border-radius: var(--radius);
+  background: var(--fog);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  transition: all .15s;
+}
+.day-btn:hover:not(:disabled) {
+  border-color: var(--teal);
+  background: var(--teal-light);
+  transform: translateX(3px);
+}
+.day-btn.sel {
+  background: linear-gradient(135deg, var(--teal-light), #d0edf9);
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  font-weight: 600;
+}
+.day-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.day-badge { font-size: 12px; color: var(--ink3); background: var(--snow); padding: 3px 9px; border-radius: 20px; border: 1px solid var(--fog2); }
+.day-btn.sel .day-badge { background: var(--teal-light); color: var(--teal-dark); border-color: var(--teal-mid); }
+
+/* ── Alerts ── */
+.alert {
+  padding: 12px 15px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.alert i { margin-top: 1px; flex-shrink: 0; font-size: 16px; }
+.alert-info  { background: var(--teal-light);  color: var(--teal-dark);  border: 1px solid var(--teal-mid); }
+.alert-warn  { background: var(--amber-bg);     color: var(--amber);      border: 1px solid rgba(225,112,85,0.25); }
+.alert-err   { background: var(--red-bg);       color: var(--red);        border: 1px solid rgba(214,48,49,0.2); }
+.alert-ok    { background: var(--green-bg);     color: #00796B;           border: 1px solid rgba(0,184,148,0.25); }
+
+/* ── Progress bar ── */
+.progress-wrap { height: 5px; background: var(--fog2); border-radius: 3px; margin-bottom: 1.25rem; overflow: hidden; }
+.progress-bar  { height: 5px; background: linear-gradient(90deg, var(--teal), var(--teal-dark)); border-radius: 3px; transition: width .4s cubic-bezier(.4,0,.2,1); }
+.step-label    { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink3); margin-bottom: 6px; }
+.step-label span:first-child { font-weight: 600; color: var(--teal-dark); }
+
+/* ── Dashboard user card ── */
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, var(--teal-dark) 0%, #005f8e 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin: 0 1rem 1rem;
+  box-shadow: 0 8px 24px rgba(0,119,182,0.25);
+  color: #fff;
+  animation: fadeUp 0.3s ease both;
+}
+.user-card .avatar {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  box-shadow: none;
+  border: 2px solid rgba(255,255,255,0.3);
+}
+.user-card-name { font-size: 16px; font-weight: 700; }
+.user-card-email { font-size: 12px; opacity: 0.75; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
+
+/* ── Stats grid ── */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 1rem 1rem; }
+.stat-card {
+  background: var(--snow);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  animation: fadeUp 0.3s ease both;
+}
+.stat-num { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--teal-dark); line-height: 1; }
+.stat-label { font-size: 12px; color: var(--ink3); margin-top: 4px; font-weight: 500; }
+
+/* ── Empty state ── */
+.empty-state { text-align: center; padding: 3rem 1rem; }
+.empty-state .empty-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--teal-light);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+}
+.empty-state .empty-icon i { font-size: 28px; color: var(--teal); }
+.empty-state h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.empty-state p { font-size: 13px; color: var(--ink3); margin-bottom: 1.25rem; }
+
+/* ── Divider ── */
+hr { border: none; border-top: 1px solid var(--fog2); margin: 14px 0; }
+
+/* ── Link ── */
+.link { color: var(--teal); cursor: pointer; font-size: 13px; font-weight: 500; text-decoration: underline; text-underline-offset: 2px; }
+.link:hover { color: var(--teal-dark); }
+
+/* ── Misc ── */
+.muted { color: var(--ink3); font-size: 13px; line-height: 1.6; }
+.mt8  { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+#msg  { min-height: 0; }
+
+/* ── Admin badge ── */
+.admin-card {
+  display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg, #2d3748, #1a202c);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin: 0 1rem 1rem;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  animation: fadeUp 0.3s ease both;
+}
+.admin-card .avatar { background: rgba(255,255,255,0.15); color: #fff; border: 2px solid rgba(255,255,255,0.25); }
+
+/* ── Table ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { text-align: left; padding: 8px 10px; color: var(--ink3); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--fog2); }
+.data-table th.center { text-align: center; }
+.data-table td { padding: 10px; border-bottom: 1px solid var(--fog2); vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--fog); }
+
+/* ── Capacity bar ── */
+.cap-bar { height: 4px; background: var(--fog2); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.cap-fill { height: 4px; border-radius: 2px; transition: width .3s; }
+
+@media (max-width: 480px) {
+  .g2 { grid-template-columns: 1fr; }
+  .tab { font-size: 11px; padding: 10px 4px; }
+  .tab i { display: none; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <img class="hero-img" src="centre.jpg" alt="Kumon Brookswood Centre" onerror="this.style.display='none'" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <img class="hero-logo" src="kumon-logo.png" alt="Kumon" onerror="this.style.display='none'" />
+      <div class="hero-text">
+        <h1>Brookswood Centre</h1>
+        <p>Parent booking portal</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Address -->
+  <div class="address-bar">
+    <a class="address-item" href="https://maps.google.com/?q=4043+200+St+Langley+BC" target="_blank">
+      <i class="ti ti-map-pin"></i>
+      <span>4043 200 St, Langley, BC V3A 1K8</span>
+    </a>
+    <a class="address-item" href="tel:+16042452121">
+      <i class="ti ti-phone"></i>
+      <span>(604) 245-2121</span>
+    </a>
+  </div>
+
+  <div id="root"></div>
+</div>
+
+<script>
+const CENTRE_NAME = "Kumon Brookswood";
+const SUBJECTS = ["Mathematics", "English"];
+const EARLY_LEVELS = ['early'];
+const STD_LEVELS   = ['main'];
+const MAX_EARLY = 6;
+const MAX_STD   = 15;
+const SCHEDULE = {
+Monday:   { hours: ['2:30','3:00','3:30','4:00','4:30','5:00','5:30'], suffix: 'PM' },
+Thursday: { hours: ['2:30','3:00','3:30','4:00','4:30','5:00','5:30'], suffix: 'PM' },
+Friday:   { hours: ['2:30','3:00','3:30','4:00','4:30','5:00','5:30'], suffix: 'PM' },
+Saturday: { hours: ['9:00','9:30','10:00','10:30','11:00','11:30'],    suffix: 'AM' }
+};
+const DAY_ORDER = { Monday:0, Thursday:1, Friday:2, Saturday:3 };
+const CANCEL_NOTICE_DAYS = 3;
+const ADMIN_PASSWORD = "Kumon2024!";
+const isEarly = lvl => lvl === 'early';
+const classLabel = lvl => isEarly(lvl) ? 'Early Learner' : 'Main class';
+const slotDur = lvl => isEarly(lvl) ? 30 : 45;
+const slotMax = lvl => isEarly(lvl) ? MAX_EARLY : MAX_STD;
+const initials = n => n.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const fmtTime  = (h, day) => h + ' ' + (day && SCHEDULE[day] ? SCHEDULE[day].suffix : (parseInt(h) < 9 ? 'AM' : 'PM'));
+const availHours = (day, lvl) => {
+const suffix = SCHEDULE[day].suffix;
+const closeMin = suffix === 'AM' ? 12*60 : 18*60;
+const toMin = h => {
+const [hr, mn] = h.split(':').map(Number);
+return (hr + (suffix === 'PM' && hr !== 12 ? 12 : 0)) * 60 + mn;
+};
+const toHHMM = totalMin => {
+let h = Math.floor(totalMin / 60);
+const m = totalMin % 60;
+if (suffix === 'PM' && h > 12) h = h - 12;
+return h + ':' + (m === 0 ? '00' : m < 10 ? '0'+m : m);
+};
+if (isEarly(lvl)) {
+return SCHEDULE[day].hours.filter(h => toMin(h) + 30 <= closeMin);
+} else {
+const openMin = toMin(SCHEDULE[day].hours[0]);
+const slots = [];
+let t = openMin;
+while (t + 45 <= closeMin) {
+slots.push(toHHMM(t));
+t += 45;
+}
+return slots;
+}
+};
+const uid = () => Math.random().toString(36).slice(2,9);
+function nextOccurrence(dayName) {
+const dayNum = {Sunday:0,Monday:1,Tuesday:2,Wednesday:3,Thursday:4,Friday:5,Saturday:6};
+const today = new Date();
+today.setHours(0,0,0,0);
+let diff = dayNum[dayName] - today.getDay();
+if (diff <= 0) diff += 7;
+const d = new Date(today);
+d.setDate(today.getDate() + diff);
+return d;
+}
+function daysUntil(date) {
+const today = new Date();
+today.setHours(0,0,0,0);
+return Math.round((date - today) / 86400000);
+}
+function fmtDate(date) {
+return date.toLocaleDateString('en-CA', {weekday:'short', month:'short', day:'numeric'});
+}
+const LS = {
+get: k => { try { const v=localStorage.getItem(k); return v?JSON.parse(v):null; } catch(e){return null;} },
+set: (k,v) => { try { localStorage.setItem(k,JSON.stringify(v)); } catch(e){} },
+del: k => { try { localStorage.removeItem(k); } catch(e){} }
+};
+function allPossibleSlots(day) {
+const suffix = SCHEDULE[day].suffix;
+const closeMin = suffix === 'AM' ? 12*60 : 18*60;
+const toMin = h => {
+const [hr, mn] = h.split(':').map(Number);
+return (hr + (suffix === 'PM' && hr !== 12 ? 12 : 0)) * 60 + mn;
+};
+const toHHMM = totalMin => {
+let h = Math.floor(totalMin / 60);
+const m = totalMin % 60;
+if (suffix === 'PM' && h > 12) h = h - 12;
+return h + ':' + (m === 0 ? '00' : m < 10 ? '0'+m : m);
+};
+const earlySlots = SCHEDULE[day].hours;
+const openMin = toMin(SCHEDULE[day].hours[0]);
+const mainSlots = [];
+let t = openMin;
+while (t + 45 <= closeMin) { mainSlots.push(toHHMM(t)); t += 45; }
+return [...new Set([...earlySlots, ...mainSlots])];
+}
+function loadCap() {
+let c = LS.get('kum_cap');
+if (!c) {
+c = {};
+Object.keys(SCHEDULE).forEach(d => {
+c[d] = {};
+allPossibleSlots(d).forEach(h => { c[d][h] = {early:0, std:0}; });
+});
+LS.set('kum_cap', c);
+} else {
+Object.keys(SCHEDULE).forEach(d => {
+if (!c[d]) c[d] = {};
+allPossibleSlots(d).forEach(h => { if (!c[d][h]) c[d][h] = {early:0, std:0}; });
+});
+}
+return c;
+}
+let S = { view:'login', user:null, cap:loadCap(), tab:'bookings', adminTab:'overview', bookFlow:null, pendingEmail:'', confirmRemove:null };
+const root = () => document.getElementById('root');
+function render() { root().innerHTML = VIEWS[S.view](); attachEvents(); }
+function go(patch) { Object.assign(S,patch); render(); }
+const VIEWS = {
+login: () => `
+<div class="section-label">Welcome</div>
+<div class="card">
+<div class="card-hd"><i class="ti ti-mail"></i> Sign in to your account</div>
+<p class="muted" style="margin-bottom:1.25rem">Enter your email to sign in. First time visiting? We'll set up your account automatically.</p>
+<div class="field"><label>Email address</label><input id="em" type="email" placeholder="your@email.com" autocomplete="email" /></div>
+<div id="msg"></div>
+<button class="btn btn-primary mt12" onclick="handleLogin()">Continue <i class="ti ti-arrow-right"></i></button>
+</div>
+<p style="text-align:center;margin-top:12px"><span class="link" onclick="go({view:'adminLogin'})"><i class="ti ti-shield-lock" style="font-size:12px"></i> Centre admin login</span></p>`,
+register: () => `
+<div class="section-label">New account</div>
+<div class="card">
+<div class="card-hd"><i class="ti ti-user-plus"></i> Create your account</div>
+<p class="muted" style="margin-bottom:1.25rem">Welcome to Kumon Brookswood! Just a few details to get you set up.</p>
+<div class="g2">
+<div class="field"><label>First name</label><input id="fn" placeholder="Sarah" autocomplete="given-name" /></div>
+<div class="field"><label>Last name</label><input id="ln" placeholder="Chen" autocomplete="family-name" /></div>
+</div>
+<div class="field"><label>Phone number</label><input id="ph" type="tel" placeholder="+1 604 000 0000" autocomplete="tel" /></div>
+<div class="field"><label>Email</label><input id="em2" value="${S.pendingEmail}" readonly /></div>
+<div id="msg"></div>
+<button class="btn btn-primary mt12" onclick="handleRegister()"><i class="ti ti-check"></i> Create account & continue</button>
+<button class="btn mt8" onclick="go({view:'login'})"><i class="ti ti-arrow-left"></i> Back</button>
+</div>`,
+dashboard: () => {
+const u = S.user;
+return `
+<div class="user-card">
+<div class="avatar">${initials(u.firstName+' '+u.lastName)}</div>
+<div style="flex:1;min-width:0">
+<div class="user-card-name">Hi, ${u.firstName}!</div>
+<div class="user-card-email">${u.email}</div>
+</div>
+<button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25);backdrop-filter:blur(4px)" onclick="signOut()">Sign out</button>
+</div>
+<div class="tab-bar">
+<div class="tab ${S.tab==='bookings'?'active':''}" onclick="go({tab:'bookings'})"><i class="ti ti-calendar"></i> Bookings</div>
+<div class="tab ${S.tab==='students'?'active':''}" onclick="go({tab:'students'})"><i class="ti ti-users"></i> Students</div>
+<div class="tab ${S.tab==='account'?'active':''}" onclick="go({tab:'account'})"><i class="ti ti-settings"></i> Account</div>
+</div>
+${S.tab==='bookings' ? renderBookings(u) : ''}
+${S.tab==='students' ? renderStudents(u) : ''}
+${S.tab==='account'  ? renderAccount(u)  : ''}`;
+},
+addStudent: () => `
+<div class="section-label">New student</div>
+<div class="card">
+<div class="card-hd"><i class="ti ti-user-plus"></i> Add a student</div>
+<div class="g2">
+<div class="field"><label>First name</label><input id="sfn" placeholder="Alex" /></div>
+<div class="field"><label>Last name</label><input id="sln" placeholder="Chen" /></div>
+</div>
+<div class="field">
+<label>Kumon level</label>
+<select id="slvl">
+<option value="">-- Select class type --</option>
+<option value="early">Early Learner — 30 min slot (Age 3–9)</option>
+<option value="main">Main class — 45 min slot (Age 10+)</option>
+</select>
+</div>
+<div class="field">
+<label>Subject</label>
+<select id="ssubj">${SUBJECTS.map(s=>`<option>${s}</option>`).join('')}</select>
+</div>
+<div id="msg"></div>
+<button class="btn btn-primary mt8" onclick="handleAddStudent()"><i class="ti ti-plus"></i> Add student</button>
+<button class="btn mt8" onclick="go({view:'dashboard',tab:'students'})">Cancel</button>
+</div>`,
+bookSlots: () => {
+const bf = S.bookFlow;
+const steps = ['Pick day 1','Pick time','Pick day 2','Pick time','Review'];
+const stepIdx = bf.step - 1;
+const progressW = Math.round((bf.step / 5) * 100);
+return `
+<div class="card">
+<div class="card-hd"><i class="ti ti-calendar-plus"></i> Book sessions — ${bf.student.firstName}</div>
+<div class="step-label"><span>${steps[stepIdx]}</span><span>Step ${bf.step} of 5</span></div>
+<div class="progress-wrap"><div class="progress-bar" style="width:${progressW}%"></div></div>
+${bf.step===1 ? renderDayPicker(1) : ''}
+${bf.step===2 ? renderSlotPicker(1) : ''}
+${bf.step===3 ? renderDayPicker(2) : ''}
+${bf.step===4 ? renderSlotPicker(2) : ''}
+${bf.step===5 ? renderReview() : ''}
+<div id="msg"></div>
+</div>`;
+},
+adminLogin: () => `
+<div class="section-label">Staff access</div>
+<div class="card">
+<div class="card-hd"><i class="ti ti-shield-lock"></i> Admin login</div>
+<p class="muted" style="margin-bottom:1.25rem">For Kumon Brookswood Centre staff only. Please enter your admin password to continue.</p>
+<div class="field"><label>Admin password</label><input id="apw" type="password" placeholder="Enter password" /></div>
+<div id="msg"></div>
+<button class="btn btn-primary mt12" onclick="handleAdminLogin()"><i class="ti ti-lock-open"></i> Sign in as admin</button>
+<button class="btn mt8" onclick="go({view:'login'})"><i class="ti ti-arrow-left"></i> Back to parent login</button>
+</div>`,
+admin: () => {
+const allBookings = getAllBookings();
+const allParents  = getAllParents();
+return `
+<div class="admin-card">
+<div class="avatar"><i class="ti ti-shield" style="font-size:18px"></i></div>
+<div style="flex:1;min-width:0">
+<div style="font-weight:700;font-size:15px">Admin Dashboard</div>
+<div style="font-size:12px;opacity:.7;margin-top:2px">Kumon Brookswood · ${allBookings.length} bookings · ${allParents.length} families</div>
+</div>
+<button class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="go({view:'login',user:null})">Sign out</button>
+</div>
+<div class="tab-bar">
+<div class="tab ${S.adminTab==='overview'?'active':''}" onclick="go({adminTab:'overview'})"><i class="ti ti-layout-dashboard"></i> Overview</div>
+<div class="tab ${S.adminTab==='bookings'?'active':''}" onclick="go({adminTab:'bookings'})"><i class="ti ti-calendar"></i> Bookings</div>
+<div class="tab ${S.adminTab==='slots'?'active':''}" onclick="go({adminTab:'slots'})"><i class="ti ti-table"></i> Slots</div>
+<div class="tab ${S.adminTab==='families'?'active':''}" onclick="go({adminTab:'families'})"><i class="ti ti-users"></i> Families</div>
+</div>
+${S.adminTab==='overview'  ? renderAdminOverview(allBookings, allParents) : ''}
+${S.adminTab==='bookings'  ? renderAdminBookings(allBookings) : ''}
+${S.adminTab==='slots'     ? renderAdminSlots() : ''}
+${S.adminTab==='families'  ? renderAdminFamilies(allParents) : ''}
+`;},
+bookingSuccess: () => {
+const st = S.user.students.find(s=>s.id===S.lastBookedStudentId);
+const bookings = st ? st.bookings.filter(b=>S.lastBookedIds.includes(b.id)) : [];
+return `
+<div class="section-label">Booking confirmed</div>
+<div class="card" style="text-align:center;padding:2rem 1.5rem">
+<div style="width:64px;height:64px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
+<i class="ti ti-circle-check" style="font-size:30px;color:var(--green)"></i>
+</div>
+<h2 style="font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:6px">You're booked!</h2>
+<p class="muted" style="margin-bottom:1.5rem">Sessions have been confirmed for <strong>${st?st.firstName:''}</strong>. Add them to your calendar so you never miss a class.</p>
+${bookings.map(b=>`
+<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--fog);border-radius:var(--radius);margin-bottom:8px;text-align:left">
+<div>
+<div style="font-weight:600;font-size:14px">${b.day} · ${fmtTime(b.time,b.day)}</div>
+<div style="font-size:12px;color:var(--ink3);margin-top:1px">Weekly · ${slotDur(b.level)} min</div>
+</div>
+<span class="pill pill-green"><i class="ti ti-check" style="font-size:11px"></i> Confirmed</span>
+</div>`).join('')}
+<button class="btn btn-primary mt12" onclick="addBookingToCalendar('${S.lastBookedStudentId}',${JSON.stringify(S.lastBookedIds||[])})">
+<i class="ti ti-calendar-plus"></i> Add sessions to calendar
+</button>
+<p class="muted" style="font-size:12px;margin-top:8px">Downloads an .ics file — works with Google Calendar, Apple Calendar &amp; Outlook</p>
+<button class="btn mt8" onclick="go({view:'dashboard',tab:'bookings'})"><i class="ti ti-arrow-right"></i> Go to my bookings</button>
+</div>`;
+},
+cancelConfirm: () => {
+const b = S.cancelTarget;
+const nextDate = nextOccurrence(b.day);
+const days = daysUntil(nextDate);
+const canCancel = days >= CANCEL_NOTICE_DAYS;
+const dateStr = fmtDate(nextDate);
+const upcomingDates = [];
+for (let i = 0; i < 4; i++) {
+const d = new Date(nextDate);
+d.setDate(nextDate.getDate() + i * 7);
+upcomingDates.push(d);
+}
+return `
+<div class="section-label">Cancel a session</div>
+<div class="card">
+<div class="card-hd"><i class="ti ti-calendar-x"></i> Cancel a session</div>
+<div class="row"><span class="row-label">Student</span><span class="row-val">${b.studentName}</span></div>
+<div class="row"><span class="row-label">Recurring slot</span><span class="row-val">${b.day} · ${fmtTime(b.time, b.day)}</span></div>
+<div class="row"><span class="row-label">Subject</span><span class="row-val">${b.subject} · ${classLabel(b.level)}</span></div>
+<hr/>
+<p class="muted" style="margin-bottom:12px">Select the date you want to cancel. This will skip that one session only — your recurring slot stays intact.</p>
+${upcomingDates.map((d,i) => {
+const dDays = daysUntil(d);
+const dStr = fmtDate(d);
+const isoStr = d.toISOString().slice(0,10);
+const ok = dDays >= CANCEL_NOTICE_DAYS;
+const alreadyCancelled = (b.cancelledDates||[]).includes(isoStr);
+return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;background:${alreadyCancelled?'var(--fog2)':ok?'var(--fog)':'var(--red-bg)'};border:1px solid ${alreadyCancelled?'var(--border)':ok?'var(--border)':'rgba(214,48,49,0.15)'};margin-bottom:8px">
+<div>
+<div style="font-weight:600;font-size:14px;color:${alreadyCancelled?'var(--ink3)':'var(--ink)'}">${dStr}</div>
+<div style="font-size:12px;margin-top:2px;color:${ok?'var(--ink3)':'var(--red)'}">
+${alreadyCancelled ? '✓ Already cancelled' : ok ? dDays+' days away — can cancel' : 'Less than '+CANCEL_NOTICE_DAYS+' days — too late'}
+</div>
+</div>
+${alreadyCancelled
+? `<span class="pill pill-ink">Cancelled</span>`
+: ok
+? `<button class="btn btn-danger btn-sm" onclick="doCancelDate('${isoStr}')"><i class="ti ti-x"></i> Cancel</button>`
+: `<span class="pill pill-red">Too late</span>`
+}
+</div>`;
+}).join('')}
+<div class="alert alert-warn mt8"><i class="ti ti-info-circle"></i> Need to cancel a date less than ${CANCEL_NOTICE_DAYS} days away? Please call us at (604) 245-2121.</div>
+<button class="btn mt8" onclick="go({view:'dashboard',tab:'bookings'})"><i class="ti ti-arrow-left"></i> Back to bookings</button>
+</div>`;
+}
+};
+function renderBookings(u) {
+const all = [];
+(u.students||[]).forEach(st => {
+(st.bookings||[]).forEach(b => all.push({...b, studentName:st.firstName+' '+st.lastName, studentId:st.id}));
+});
+all.sort((a,b) => (DAY_ORDER[a.day]||0)-(DAY_ORDER[b.day]||0));
+if (!all.length) return `
+<div class="card empty-state">
+<div class="empty-icon"><i class="ti ti-calendar-off"></i></div>
+<h3>No bookings yet</h3>
+<p>${(u.students||[]).length ? 'Go to Students to book your first session.' : 'Add a student first, then book their sessions.'}</p>
+${(u.students||[]).length ? `<button class="btn btn-primary" onclick="go({view:'dashboard',tab:'students'})"><i class="ti ti-plus"></i> Book a session</button>` : ''}
+</div>`;
+return `
+<div class="card">
+<div class="card-hd"><i class="ti ti-calendar-week"></i> Weekly schedule
+<button class="btn btn-ghost btn-sm" style="margin-left:auto;font-size:12px" onclick="addAllToCalendar()"><i class="ti ti-calendar-plus"></i> Add all to calendar</button>
+</div>
+${all.map(b=>{
+const nextDate = nextOccurrence(b.day);
+const days = daysUntil(nextDate);
+const dateStr = fmtDate(nextDate);
+return `
+<div class="row" style="align-items:flex-start">
+<div style="flex:1">
+<div style="font-weight:600;font-size:14px">${b.day} · ${fmtTime(b.time, b.day)}</div>
+<div style="font-size:12px;color:var(--ink3);margin-top:2px">${b.studentName} · ${b.subject}</div>
+<div style="margin-top:5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+<span class="pill ${isEarly(b.level)?'pill-green':'pill-teal'}">${classLabel(b.level)}</span>
+<span class="pill pill-ink"><i class="ti ti-calendar" style="font-size:11px"></i> Next: ${dateStr}</span>
+<span class="pill ${days<=3?'pill-amber':'pill-ink'}">${days}d away</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;margin-top:2px">
+<button class="btn btn-ghost btn-sm" onclick="addBookingToCalendar('${b.studentId}',['${b.id}'])"><i class="ti ti-calendar-plus"></i> Add to calendar</button>
+<button class="btn btn-danger btn-sm" onclick="startCancel('${b.studentId}','${b.id}')"><i class="ti ti-x"></i> Cancel session</button>
+</div>
+</div>`;
+}).join('')}
+</div>`;
+}
+function renderStudents(u) {
+const students = u.students||[];
+if (!students.length) return `
+<div class="card empty-state">
+<div class="empty-icon"><i class="ti ti-users"></i></div>
+<h3>No students yet</h3>
+<p>Add your child to start booking their weekly sessions.</p>
+<button class="btn btn-primary" onclick="go({view:'addStudent'})"><i class="ti ti-plus"></i> Add a student</button>
+</div>`;
+return `
+<div class="card">
+<div class="card-hd"><i class="ti ti-users"></i> Your students</div>
+${students.map(st=>`
+<div class="student-row">
+<div class="avatar" style="margin-top:2px">${initials(st.firstName+' '+st.lastName)}</div>
+<div style="flex:1;min-width:0">
+<div style="font-weight:600;font-size:14px">${st.firstName} ${st.lastName}</div>
+<div style="font-size:12px;color:var(--text2)">${st.subject} · ${classLabel(st.level)} · ${slotDur(st.level)}-min slots</div>
+<div style="margin-top:5px">${(st.bookings||[]).map(b=>`<span class="chip"><i class="ti ti-clock" style="font-size:11px"></i>${b.day.slice(0,3)} ${fmtTime(b.time, b.day)}</span>`).join('') || '<span class="muted" style="font-size:12px">No sessions booked</span>'}</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0">
+${(st.bookings||[]).length<2 ? `<button class="btn btn-primary btn-sm" onclick="startBooking('${st.id}')">Book</button>` : ''}
+${S.confirmRemove===st.id
+? `<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+<span style="font-size:11px;color:var(--red-text);font-weight:600">Are you sure?</span>
+<div style="display:flex;gap:4px">
+<button class="btn btn-sm" onclick="go({confirmRemove:null})">No</button>
+<button class="btn btn-danger btn-sm" onclick="doRemoveStudent('${st.id}')"><i class="ti ti-trash"></i> Yes</button>
+</div>
+</div>`
+: `<button class="btn btn-danger btn-sm" onclick="go({confirmRemove:'${st.id}'})">Remove</button>`
+}
+</div>
+</div>`).join('')}
+</div>
+<button class="btn" onclick="go({view:'addStudent'})"><i class="ti ti-plus"></i> Add another student</button>`;
+}
+function renderAccount(u) {
+return `
+<div class="card">
+<div class="card-hd"><i class="ti ti-user"></i> Account details</div>
+<div class="row"><span class="row-label">Name</span><span class="row-val">${u.firstName} ${u.lastName}</span></div>
+<div class="row"><span class="row-label">Email</span><span class="row-val">${u.email}</span></div>
+<div class="row"><span class="row-label">Phone</span><span class="row-val">${u.phone||'—'}</span></div>
+<div class="row"><span class="row-label">Member since</span><span class="row-val">${new Date(u.createdAt).toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'})}</span></div>
+</div>
+<div class="card">
+<div class="card-hd"><i class="ti ti-info-circle"></i> Booking policy</div>
+<p style="font-size:14px;color:var(--text2);line-height:1.7">
+Each student attends <strong>twice per week</strong> on consistent days. Cancellations or changes must be requested at least <strong>${CANCEL_NOTICE_DAYS} days</strong> before the class day — otherwise please contact the centre directly.
+</p>
+<hr/>
+<div style="font-size:13px;color:var(--text2)">
+<div class="row"><span class="row-label">Early Learner (Age 3–9)</span><span class="row-val">30 min · max ${MAX_EARLY} per slot</span></div>
+<div class="row"><span class="row-label">Main class (Age 10+)</span><span class="row-val">45 min · max ${MAX_STD} per slot</span></div>
+</div>
+</div>`;
+}
+function renderDayPicker(which) {
+const bf = S.bookFlow;
+const taken = which===2 ? bf.day1 : null;
+return `
+<p class="muted" style="margin-bottom:10px">Select <strong>day ${which}</strong> of 2 for ${bf.student.firstName}:</p>
+${Object.keys(SCHEDULE).map(d=>`
+<button class="day-btn ${bf['day'+which]===d?'sel':''}" ${d===taken?'disabled':''} onclick="pickDay(${which},'${d}')">
+<span>${d}</span>
+<span class="day-badge">${d==='Saturday'?'9 AM – 12 PM':'2:30 – 6 PM'}</span>
+</button>`).join('')}
+<div style="display:flex;gap:8px;margin-top:8px">
+<button class="btn" onclick="bfBack()"><i class="ti ti-arrow-left"></i> Back</button>
+<button class="btn btn-primary" ${bf['day'+which]?'':'disabled'} onclick="bfNext()">Next <i class="ti ti-arrow-right"></i></button>
+</div>`;
+}
+function renderSlotPicker(which) {
+const bf = S.bookFlow;
+const day = bf['day'+which];
+const lvl = bf.student.level;
+const capKey = isEarly(lvl) ? 'early' : 'std';
+return `
+<p class="muted" style="margin-bottom:6px">Choose a time on <strong>${day}</strong>:</p>
+<div class="slot-grid">
+${availHours(day, lvl).map(h => {
+const used = (S.cap[day]&&S.cap[day][h]) ? S.cap[day][h][capKey] : 0;
+const avail = slotMax(lvl) - used;
+const full = avail <= 0;
+const sel  = bf['slot'+which]===h;
+return `<div class="slot ${full?'full':''} ${sel?'sel':''}" ${full?'':('onclick="pickSlot('+which+',\''+h+'\')"')}>
+<div class="slot-t">${fmtTime(h, day)}</div>
+<div class="slot-a">${full?'Full':''+avail+' spot'+(avail!==1?'s':'')+' left'}</div>
+</div>`;
+}).join('')}
+</div>
+<div style="display:flex;gap:8px;margin-top:8px">
+<button class="btn" onclick="bfBack()"><i class="ti ti-arrow-left"></i> Back</button>
+<button class="btn btn-primary" ${bf['slot'+which]?'':'disabled'} onclick="bfNext()">Next <i class="ti ti-arrow-right"></i></button>
+</div>`;
+}
+function renderReview() {
+const bf = S.bookFlow;
+return `
+<div class="alert alert-info"><i class="ti ti-check"></i> Review your selection before confirming.</div>
+<div class="row"><span class="row-label">Student</span><span class="row-val">${bf.student.firstName} ${bf.student.lastName}</span></div>
+<div class="row"><span class="row-label">Subject</span><span class="row-val">${bf.student.subject}</span></div>
+<div class="row"><span class="row-label">Class type</span><span class="row-val">${classLabel(bf.student.level)}</span></div>
+<div class="row"><span class="row-label">Session length</span><span class="row-val">${slotDur(bf.student.level)} minutes</span></div>
+<div class="row"><span class="row-label">Day 1</span><span class="row-val">${bf.day1} at ${fmtTime(bf.slot1, bf.day1)}</span></div>
+<div class="row"><span class="row-label">Day 2</span><span class="row-val">${bf.day2} at ${fmtTime(bf.slot2, bf.day2)}</span></div>
+<div class="row"><span class="row-label">Frequency</span><span class="row-val">Weekly (recurring)</span></div>
+<div style="display:flex;gap:8px;margin-top:14px">
+<button class="btn" onclick="bfBack()"><i class="ti ti-arrow-left"></i> Back</button>
+<button class="btn btn-primary" onclick="confirmBooking()"><i class="ti ti-check"></i> Confirm booking</button>
+</div>`;
+}
+function showMsg(txt, type='alert-err') {
+const el = document.getElementById('msg');
+if (el) el.innerHTML = `<div class="alert ${type}" style="margin-top:10px"><i class="ti ti-${type==='alert-err'?'alert-triangle':'check'}"></i> ${txt}</div>`;
+}
+function handleLogin() {
+const em = (document.getElementById('em').value||'').trim().toLowerCase();
+if (!em || !em.includes('@') || !em.includes('.')) { showMsg('Please enter a valid email address.'); return; }
+const existing = LS.get('kum_user:'+em);
+if (existing) { S.user = existing; go({view:'dashboard', tab:'bookings'}); }
+else { go({view:'register', pendingEmail:em}); }
+}
+function handleRegister() {
+const fn = (document.getElementById('fn').value||'').trim();
+const ln = (document.getElementById('ln').value||'').trim();
+const ph = (document.getElementById('ph').value||'').trim();
+if (!fn||!ln) { showMsg('Please enter your first and last name.'); return; }
+const user = { firstName:fn, lastName:ln, phone:ph, email:S.pendingEmail, students:[], createdAt:Date.now() };
+LS.set('kum_user:'+S.pendingEmail, user);
+S.user = user;
+go({view:'dashboard', tab:'students'});
+}
+function signOut() { S.user=null; go({view:'login'}); }
+function handleAddStudent() {
+const fn   = (document.getElementById('sfn').value||'').trim();
+const ln   = (document.getElementById('sln').value||'').trim();
+const lvl  = document.getElementById('slvl').value;
+const subj = document.getElementById('ssubj').value;
+if (!fn||!ln||!lvl) { showMsg('Please fill in all fields.'); return; }
+const st = { id:uid(), firstName:fn, lastName:ln, level:lvl, subject:subj, bookings:[] };
+S.user.students.push(st);
+LS.set('kum_user:'+S.user.email, S.user);
+go({view:'dashboard', tab:'students'});
+}
+function doRemoveStudent(id) {
+const st = S.user.students.find(s=>s.id===id);
+if (st) {
+const capKey = isEarly(st.level)?'early':'std';
+(st.bookings||[]).forEach(b => {
+if (S.cap[b.day]&&S.cap[b.day][b.time]) S.cap[b.day][b.time][capKey] = Math.max(0, S.cap[b.day][b.time][capKey]-1);
+});
+LS.set('kum_cap', S.cap);
+}
+S.user.students = S.user.students.filter(s=>s.id!==id);
+LS.set('kum_user:'+S.user.email, S.user);
+S.confirmRemove = null;
+go({view:'dashboard', tab:'students'});
+}
+function startBooking(sid) {
+const st = S.user.students.find(s=>s.id===sid);
+if (!st) return;
+if ((st.bookings||[]).length >= 2) { alert('This student already has 2 sessions booked. Please cancel one first.'); return; }
+S.bookFlow = { student:st, step:1, day1:null, slot1:null, day2:null, slot2:null };
+go({view:'bookSlots'});
+}
+function pickDay(which, day) { S.bookFlow['day'+which]=day; render(); }
+function pickSlot(which, h)  { S.bookFlow['slot'+which]=h;  render(); }
+function bfNext() {
+const s = S.bookFlow.step;
+if (s===1 && !S.bookFlow.day1)  return;
+if (s===2 && !S.bookFlow.slot1) return;
+if (s===3 && !S.bookFlow.day2)  return;
+if (s===4 && !S.bookFlow.slot2) return;
+S.bookFlow.step = Math.min(5, s+1);
+render();
+}
+function bfBack() {
+if (S.bookFlow.step <= 1) { go({view:'dashboard',tab:'students'}); return; }
+S.bookFlow.step--;
+render();
+}
+function confirmBooking() {
+const bf = S.bookFlow;
+const st = S.user.students.find(s=>s.id===bf.student.id);
+const capKey = isEarly(st.level)?'early':'std';
+const id = uid();
+st.bookings = st.bookings||[];
+st.bookings.push(
+{id:id+'a', day:bf.day1, time:bf.slot1, subject:st.subject, level:st.level},
+{id:id+'b', day:bf.day2, time:bf.slot2, subject:st.subject, level:st.level}
+);
+if (!S.cap[bf.day1]) S.cap[bf.day1]={};
+if (!S.cap[bf.day1][bf.slot1]) S.cap[bf.day1][bf.slot1]={early:0,std:0};
+if (!S.cap[bf.day2]) S.cap[bf.day2]={};
+if (!S.cap[bf.day2][bf.slot2]) S.cap[bf.day2][bf.slot2]={early:0,std:0};
+S.cap[bf.day1][bf.slot1][capKey]++;
+S.cap[bf.day2][bf.slot2][capKey]++;
+LS.set('kum_cap', S.cap);
+LS.set('kum_user:'+S.user.email, S.user);
+S.lastBookedStudentId = bf.student.id;
+S.lastBookedIds = [id+'a', id+'b'];
+go({view:'bookingSuccess'});
+}
+function startCancel(sid, bid) {
+const st = S.user.students.find(s=>s.id===sid);
+const b  = st.bookings.find(x=>x.id===bid);
+S.cancelTarget = {...b, studentName:st.firstName+' '+st.lastName, studentId:sid};
+go({view:'cancelConfirm'});
+}
+function doCancelDate(isoDate) {
+const b  = S.cancelTarget;
+const st = S.user.students.find(s=>s.id===b.studentId);
+const booking = st.bookings.find(x=>x.id===b.id);
+if (!booking.cancelledDates) booking.cancelledDates = [];
+if (!booking.cancelledDates.includes(isoDate)) {
+booking.cancelledDates.push(isoDate);
+}
+S.cancelTarget = {...booking, studentName:st.firstName+' '+st.lastName, studentId:st.id};
+LS.set('kum_user:'+S.user.email, S.user);
+const updatedICS = generateICS([booking], st.firstName+' '+st.lastName, st.subject, slotDur(st.level));
+downloadICS(updatedICS, 'kumon-'+st.firstName.toLowerCase()+'-updated.ics');
+render();
+}
+function doCancel() {
+const b  = S.cancelTarget;
+const st = S.user.students.find(s=>s.id===b.studentId);
+const capKey = isEarly(b.level)?'early':'std';
+if (S.cap[b.day]&&S.cap[b.day][b.time]) S.cap[b.day][b.time][capKey]=Math.max(0, S.cap[b.day][b.time][capKey]-1);
+st.bookings = st.bookings.filter(x=>x.id!==b.id);
+LS.set('kum_cap', S.cap);
+LS.set('kum_user:'+S.user.email, S.user);
+go({view:'dashboard', tab:'bookings'});
+}
+function getAllParents() {
+const parents = [];
+for (let i = 0; i < localStorage.length; i++) {
+const key = localStorage.key(i);
+if (key && key.startsWith('kum_user:')) {
+const u = LS.get(key);
+if (u) parents.push(u);
+}
+}
+return parents;
+}
+function getAllBookings() {
+const all = [];
+getAllParents().forEach(u => {
+(u.students||[]).forEach(st => {
+(st.bookings||[]).forEach(b => {
+all.push({
+...b,
+studentName: st.firstName + ' ' + st.lastName,
+parentName:  u.firstName + ' ' + u.lastName,
+parentEmail: u.email,
+parentPhone: u.phone||'—',
+classType:   classLabel(b.level)
+});
+});
+});
+});
+all.sort((a,b) => (DAY_ORDER[a.day]||0)-(DAY_ORDER[b.day]||0) || a.time.localeCompare(b.time));
+return all;
+}
+function handleAdminLogin() {
+const pw = (document.getElementById('apw').value||'').trim();
+if (pw === ADMIN_PASSWORD) {
+go({view:'admin', adminTab:'overview'});
+} else {
+showMsg('Incorrect password. Please try again.');
+}
+}
+function renderAdminOverview(allBookings, allParents) {
+const earlyCount = allBookings.filter(b=>isEarly(b.level)).length;
+const mainCount  = allBookings.filter(b=>!isEarly(b.level)).length;
+const dayTotals  = {};
+Object.keys(SCHEDULE).forEach(d => { dayTotals[d] = allBookings.filter(b=>b.day===d).length; });
+return `
+<div class="stats-grid" style="margin-bottom:0">
+<div class="stat-card"><div class="stat-num">${allBookings.length}</div><div class="stat-label">Total bookings</div></div>
+<div class="stat-card"><div class="stat-num">${allParents.length}</div><div class="stat-label">Registered families</div></div>
+<div class="stat-card"><div class="stat-num" style="color:var(--green)">${earlyCount}</div><div class="stat-label">Early Learner</div></div>
+<div class="stat-card"><div class="stat-num" style="color:var(--teal)">${mainCount}</div><div class="stat-label">Main class</div></div>
+<div class="stat-card" style="grid-column:span 2;display:none"></div>
+</div>
+<div class="card" style="margin-top:0">
+<div class="card-hd"><i class="ti ti-calendar-week"></i> Bookings per day</div>
+${Object.keys(SCHEDULE).map(d => {
+const count = dayTotals[d]||0;
+const totalSlots = SCHEDULE[d].hours.length;
+const pct = Math.round((count / (totalSlots * (MAX_EARLY + MAX_STD))) * 100);
+return `<div style="margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+<span style="font-weight:500">${d}</span>
+<span style="color:var(--text2)">${count} student${count!==1?'s':''}</span>
+</div>
+<div style="height:6px;background:var(--bg2);border-radius:3px">
+<div style="height:6px;background:var(--blue-mid);border-radius:3px;width:${Math.min(pct,100)}%"></div>
+</div>
+</div>`;
+}).join('')}
+</div>`;
+}
+function renderAdminBookings(allBookings) {
+if (!allBookings.length) return `
+<div class="card empty-state">
+<div class="empty-icon"><i class="ti ti-calendar-off"></i></div>
+<h3>No bookings yet</h3>
+<p>Bookings will appear here once parents start registering.</p>
+</div>`;
+const byDay = {};
+Object.keys(SCHEDULE).forEach(d => { byDay[d] = allBookings.filter(b=>b.day===d); });
+return Object.keys(SCHEDULE).map(d => {
+if (!byDay[d].length) return '';
+return `<div class="card">
+<div class="card-hd"><i class="ti ti-calendar-event"></i> ${d}
+<span class="pill pill-blue" style="margin-left:auto;font-size:11px">${byDay[d].length} booking${byDay[d].length!==1?'s':''}</span>
+</div>
+${byDay[d].map(b=>`
+<div class="row" style="align-items:flex-start">
+<div style="flex:1">
+<div style="font-weight:600;font-size:14px">${fmtTime(b.time, b.day)} · ${b.studentName}</div>
+<div style="font-size:12px;color:var(--text2);margin-top:2px">${b.subject} · <span class="pill ${isEarly(b.level)?'pill-green':'pill-blue'}">${b.classType}</span></div>
+<div style="font-size:12px;color:var(--text2);margin-top:3px"><i class="ti ti-user" style="font-size:11px"></i> ${b.parentName} · ${b.parentEmail}</div>
+</div>
+</div>`).join('')}
+</div>`;
+}).join('');
+}
+function renderAdminSlots() {
+return Object.keys(SCHEDULE).map(day => {
+const earlyHours = availHours(day, 'early');
+const mainHours  = availHours(day, 'main');
+const hours = allPossibleSlots(day).filter(h =>
+earlyHours.includes(h) || mainHours.includes(h)
+).sort();
+return `<div class="card">
+<div class="card-hd"><i class="ti ti-table"></i> ${day}
+<span style="font-size:12px;color:var(--text2);font-weight:400;margin-left:4px">${day==='Saturday'?'9 AM – 12 PM':'2:30 – 6 PM'}</span>
+</div>
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed">
+<thead>
+<tr style="border-bottom:0.5px solid var(--border)">
+<th style="text-align:left;padding:7px 6px;color:var(--text2);font-weight:600;width:70px">Time</th>
+<th style="text-align:center;padding:7px 6px;color:var(--green-text);font-weight:600">Early Learner<br/><span style="font-weight:400;font-size:11px">max ${MAX_EARLY}</span></th>
+<th style="text-align:center;padding:7px 6px;color:var(--blue-text);font-weight:600">Main class<br/><span style="font-weight:400;font-size:11px">max ${MAX_STD}</span></th>
+</tr>
+</thead>
+<tbody>
+${hours.map(h => {
+const cap = (S.cap[day]&&S.cap[day][h]) ? S.cap[day][h] : {early:0,std:0};
+const earlyLeft = MAX_EARLY - cap.early;
+const stdLeft   = MAX_STD   - cap.std;
+const earlyPct  = Math.round((cap.early/MAX_EARLY)*100);
+const stdPct    = Math.round((cap.std/MAX_STD)*100);
+const earlyColor = cap.early===0?'var(--text3)':cap.early>=MAX_EARLY?'var(--red-text)':'var(--green-text)';
+const stdColor   = cap.std===0?'var(--text3)':cap.std>=MAX_STD?'var(--red-text)':'var(--blue-text)';
+return `<tr style="border-bottom:0.5px solid var(--border)">
+<td style="padding:8px 6px;font-weight:600;font-size:13px;color:var(--text)">${fmtTime(h,day)}</td>
+<td style="padding:8px 6px;text-align:center">
+<div style="font-weight:700;font-size:15px;color:${earlyColor}">${cap.early}/${MAX_EARLY}</div>
+<div style="height:4px;background:var(--bg2);border-radius:2px;margin-top:4px">
+<div style="height:4px;background:${cap.early>=MAX_EARLY?'var(--red-text)':'var(--green-text)'};border-radius:2px;width:${earlyPct}%"></div>
+</div>
+<div style="font-size:11px;color:var(--text2);margin-top:2px">${earlyLeft} left</div>
+</td>
+<td style="padding:8px 6px;text-align:center">
+<div style="font-weight:700;font-size:15px;color:${stdColor}">${cap.std}/${MAX_STD}</div>
+<div style="height:4px;background:var(--bg2);border-radius:2px;margin-top:4px">
+<div style="height:4px;background:${cap.std>=MAX_STD?'var(--red-text)':'var(--blue-mid)'};border-radius:2px;width:${stdPct}%"></div>
+</div>
+<div style="font-size:11px;color:var(--text2);margin-top:2px">${stdLeft} left</div>
+</td>
+</tr>`;
+}).join('')}
+</tbody>
+</table>
+</div>
+</div>`;
+}).join('');
+}
+function renderAdminFamilies(allParents) {
+if (!allParents.length) return `
+<div class="card empty-state">
+<div class="empty-icon"><i class="ti ti-users"></i></div>
+<h3>No families yet</h3>
+<p>Registered families will appear here.</p>
+</div>`;
+return `<div class="card">
+<div class="card-hd"><i class="ti ti-users"></i> Registered families <span class="pill pill-blue" style="margin-left:auto">${allParents.length}</span></div>
+${allParents.map(u => {
+const students = u.students||[];
+const totalBookings = students.reduce((n,st)=>n+(st.bookings||[]).length,0);
+return `<div class="student-row">
+<div class="avatar">${initials(u.firstName+' '+u.lastName)}</div>
+<div style="flex:1;min-width:0">
+<div style="font-weight:600;font-size:14px">${u.firstName} ${u.lastName}</div>
+<div style="font-size:12px;color:var(--text2)">${u.email} · ${u.phone||'no phone'}</div>
+<div style="font-size:12px;color:var(--text2);margin-top:2px">${students.length} student${students.length!==1?'s':''} · ${totalBookings} active booking${totalBookings!==1?'s':''}</div>
+<div style="margin-top:5px">${students.map(st=>`<span class="chip"><i class="ti ti-user" style="font-size:11px"></i>${st.firstName} · ${classLabel(st.level)}</span>`).join('')}</div>
+</div>
+</div>`;
+}).join('')}
+</div>`;
+}
+function dayNameToICSDay(day) {
+return {Monday:'MO',Tuesday:'TU',Wednesday:'WE',Thursday:'TH',Friday:'FR',Saturday:'SA',Sunday:'SU'}[day];
+}
+function timeToICS(h, suffix) {
+let [hr, mn] = h.split(':').map(Number);
+if (suffix === 'PM' && hr !== 12) hr += 12;
+if (suffix === 'AM' && hr === 12) hr = 0;
+return String(hr).padStart(2,'0') + String(mn).padStart(2,'0') + '00';
+}
+function dateToICS(d) {
+return d.toISOString().slice(0,10).replace(/-/g,'');
+}
+function addMinsToICSTime(icsTime, mins) {
+const hr = parseInt(icsTime.slice(0,2));
+const mn = parseInt(icsTime.slice(2,4));
+const total = hr*60 + mn + mins;
+return String(Math.floor(total/60)).padStart(2,'0') + String(total%60).padStart(2,'0') + '00';
+}
+function generateICS(bookings, studentName, subject, duration) {
+const now = new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+let cal = [
+'BEGIN:VCALENDAR',
+'VERSION:2.0',
+'PRODID:-
+'CALSCALE:GREGORIAN',
+'METHOD:PUBLISH',
+'X-WR-CALNAME:Kumon Brookswood — '+studentName,
+'X-WR-TIMEZONE:America/Vancouver'
+];
+bookings.forEach(b => {
+const suffix = SCHEDULE[b.day] ? SCHEDULE[b.day].suffix : 'PM';
+const startTime = timeToICS(b.time, suffix);
+const endTime   = addMinsToICSTime(startTime, duration);
+const firstDate = nextOccurrence(b.day);
+const dtStart   = dateToICS(firstDate) + 'T' + startTime;
+const dtEnd     = dateToICS(firstDate) + 'T' + endTime;
+const byday     = dayNameToICSDay(b.day);
+const uid_str   = b.id + '@kumonbrookswood';
+let exdates = '';
+if ((b.cancelledDates||[]).length) {
+const exList = b.cancelledDates.map(iso => {
+return iso.replace(/-/g,'') + 'T' + startTime;
+}).join(',');
+exdates = 'EXDATE;TZID=America/Vancouver:' + exList + '
+';
+}
+cal.push(
+'BEGIN:VEVENT',
+'UID:' + uid_str,
+'DTSTAMP:' + now,
+'DTSTART;TZID=America/Vancouver:' + dtStart,
+'DTEND;TZID=America/Vancouver:' + dtEnd,
+'RRULE:FREQ=WEEKLY;BYDAY=' + byday,
+exdates.trim() ? exdates.trim() : null,
+'SUMMARY:Kumon ' + subject + ' — ' + studentName,
+'DESCRIPTION:Kumon Brookswood Centre\n' + subject + ' (' + classLabel(b.level) + ')\n' + duration + ' min session',
+'LOCATION:4043 200 St\, Langley\, BC V3A 1K8',
+'COLOR:CORNFLOWERBLUE',
+'END:VEVENT'
+).filter(Boolean);
+});
+cal.push('END:VCALENDAR');
+return cal.join('
+');
+}
+function downloadICS(icsContent, filename) {
+const blob = new Blob([icsContent], {type: 'text/calendar;charset=utf-8'});
+const url  = URL.createObjectURL(blob);
+const a    = document.createElement('a');
+a.href = url; a.download = filename; a.click();
+URL.revokeObjectURL(url);
+}
+function addBookingToCalendar(studentId, bookingIds) {
+const st = S.user.students.find(s=>s.id===studentId);
+if (!st) return;
+const bookings = bookingIds
+? st.bookings.filter(b => bookingIds.includes(b.id))
+: st.bookings;
+if (!bookings.length) return;
+const ics = generateICS(bookings, st.firstName+' '+st.lastName, st.subject, slotDur(st.level));
+downloadICS(ics, 'kumon-'+st.firstName.toLowerCase()+'-sessions.ics');
+}
+function addAllToCalendar() {
+const allBookings = [];
+const allInfo = [];
+(S.user.students||[]).forEach(st => {
+(st.bookings||[]).forEach(b => {
+allBookings.push(b);
+allInfo.push({st, b});
+});
+});
+if (!allBookings.length) return;
+const byStudent = {};
+allInfo.forEach(({st,b}) => {
+if (!byStudent[st.id]) byStudent[st.id] = {st, bookings:[]};
+byStudent[st.id].bookings.push(b);
+});
+let combined = [
+'BEGIN:VCALENDAR',
+'VERSION:2.0',
+'PRODID:-
+'CALSCALE:GREGORIAN',
+'METHOD:PUBLISH',
+'X-WR-CALNAME:Kumon Brookswood Sessions'
+];
+Object.values(byStudent).forEach(({st, bookings}) => {
+const suffix = (day) => SCHEDULE[day]?.suffix || 'PM';
+const dur = slotDur(st.level);
+const now = new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+bookings.forEach(b => {
+const startTime = timeToICS(b.time, suffix(b.day));
+const endTime   = addMinsToICSTime(startTime, dur);
+const firstDate = nextOccurrence(b.day);
+const dtStart   = dateToICS(firstDate) + 'T' + startTime;
+const dtEnd     = dateToICS(firstDate) + 'T' + endTime;
+let exdates = '';
+if ((b.cancelledDates||[]).length) {
+exdates = 'EXDATE;TZID=America/Vancouver:' + b.cancelledDates.map(iso=>iso.replace(/-/g,'')+'T'+startTime).join(',');
+}
+combined.push(
+'BEGIN:VEVENT',
+'UID:'+b.id+'@kumonbrookswood',
+'DTSTAMP:'+now,
+'DTSTART;TZID=America/Vancouver:'+dtStart,
+'DTEND;TZID=America/Vancouver:'+dtEnd,
+'RRULE:FREQ=WEEKLY;BYDAY='+dayNameToICSDay(b.day),
+'SUMMARY:Kumon '+st.subject+' — '+st.firstName,
+'DESCRIPTION:Kumon Brookswood Centre\n'+st.subject+' ('+classLabel(b.level)+')\n'+dur+' min session',
+'LOCATION:4043 200 St\, Langley\, BC V3A 1K8',
+'END:VEVENT'
+);
+});
+});
+combined.push('END:VCALENDAR');
+downloadICS(combined.join('
+'), 'kumon-all-sessions.ics');
+}
+function attachEvents() {
+const em = document.getElementById('em');
+if (em) em.addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
+const fn = document.getElementById('fn');
+if (fn) fn.focus();
+}
+render();
+</script>
+</body>
+</html>
